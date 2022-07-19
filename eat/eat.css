@@ -42,4 +42,5 @@ body,html {
 	font-weight: 600;
 	cursor: pointer;
 	user-select: none;
+	outline: none;
 }
