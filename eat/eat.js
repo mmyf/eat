@@ -11,6 +11,10 @@ const obj = [
 	'砂锅',
 ];
 let interval;
+let time = 0;
+const speaker = new SpeechSynthesisUtterance();
+speaker.rate = .8;
+speaker.lang = 'zh';
 
 function clickE() {
 	if (!interval) {
@@ -23,7 +27,13 @@ function clickE() {
 			}
 		},100);
 	} else {
+		time++;
 		clearInterval(interval);
 		interval = null;
+		if (time >= 3) {
+			text.innerText = '真矫情，你就说你吃不吃吧';
+		}
+		speaker.text = text.innerText;
+		speechSynthesis.speak(speaker);
 	}
 }
