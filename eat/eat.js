@@ -27,6 +27,7 @@ function clickE() {
 			}
 		},100);
 	} else {
+		speechSynthesis.cancel();
 		time++;
 		clearInterval(interval);
 		interval = null;
