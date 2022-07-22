@@ -10,7 +10,40 @@
 	<div class="bg">
 		<div class="bg-left"></div>
 		<div class="bg-right"></div>
-		<div id="text" class="text">点我</div>
+		<div class="welcome">
+			<div class="title"><span>&#9835&#9833</span><span>今天吃什么</span><span>&#9834&#9836</span></div>
+			<div id="text" class="text">点我开始</div>
+			<div id="setting" class="setting" onclick="clickSetting()">私人定制</div>
+		</div> 
+	</div>
+	<div id="cover" class="cover">
+		<div id="tip" class="tip">
+			<div class="tip-img"></div>
+			<div class="buttons">
+				<button class="button" onclick="clickGoon()">我已经氪了10W了</button>
+				<button class="button" onclick="clickOut()">我氪你可爱</button>
+			</div>
+		</div>
+		<div id="panel" class="panel" style="display: none;">
+			<div class="form">
+				<div>
+					<span class="input-food-text">输入食物：</span>
+					<input id="food" class="input-food" type="text"/>
+					<button onclick="clickAddFood()">+</button>
+					<div class="randomButton">
+						<span>不知道吃什么？随机一个吧！</span>
+						<button onclick="clickRandomFood()">随机</button>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<button onclick="deleteAll()">删除已定制</button>
+					<button onclick="cancel()">老子填完勒</button>
+				</div>
+			</div>
+		</div>
+		<div id="out" class="out" onclick="cancel()">
+			<div class="out-img"></div>
+		</div>
 	</div>
 </body>
 <script type="text/javascript" src="./eat.js"></script>
