@@ -27,14 +27,16 @@ function clickE() {
 			}
 		},100);
 	} else {
-		speechSynthesis.cancel();
+		if (speechSynthesis) {
+			speechSynthesis.cancel();
+			speaker.text = text.innerText;
+			speechSynthesis.speak(speaker);
+		}
 		time++;
 		clearInterval(interval);
 		interval = null;
 		if (time >= 3) {
 			text.innerText = '真矫情，你就说你吃不吃吧';
 		}
-		speaker.text = text.innerText;
-		speechSynthesis.speak(speaker);
 	}
 }
