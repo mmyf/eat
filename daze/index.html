@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发呆daze</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            overflow: hidden;
+        }
+        .page {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        .before, .next {
+            width: 20%;
+            height: 100%;
+            color: rgba(127, 127, 127, 0.6);
+            font-size: 240px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            cursor: pointer;
+        }
+        .before:hover, .next:hover {
+            color: rgba(127, 127, 127, 1);
+            background-color: rgba(127, 127, 127, 0.4);
+            box-shadow: 0 0 60px 30px #fff inset;
+        }
+        .img {
+            width: 60%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .img-gif {
+            width: 100%;
+        }
+        .img-footer {
+            display: flex;
+            justify-content: space-around;
+        }
+        .auto, .random {
+            width: 80px;
+            height: 30px;
+            margin-left: 10px;
+            border: 1px solid rgba(127, 127, 127, 1);
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+            line-height: 30px;
+        }
+        .auto:hover, .random:hover {
+            background-color: rgba(127, 127, 127, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="before" onclick="before()">
+            &#139
+        </div>
+        <div class="img">
+            <img id="imgGif" class="img-gif" src="../daze/gif/1.gif" alt="发呆图">
+            <div class="img-footer">
+                <div id="autoBtn" class="auto">自动播放</div>
+                <div class="random" onclick="randomOne()">随机一张</div>
+            </div>
+        </div>
+        <div class="next" onclick="next()">
+            &#155
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = ()=>{
+        const autoBtn = document.getElementById('autoBtn');
+        autoBtn.onclick = autoPlay();
+    };
+    function before() {
+        closeAutoPlay();
+        let src = document.getElementById('imgGif').src;
+        let index = Number.parseInt(src.slice(src.indexOf('gif/') + 4,src.indexOf('.gif')));
+        if (index > 1) {
+            index--;
+        } else {
+            index = 100;
+        }
+        document.getElementById('imgGif').src = '../daze/gif/' + index + '.gif';
+    }
+    function next() {
+        closeAutoPlay();
+        let src = document.getElementById('imgGif').src;
+        let index = Number.parseInt(src.slice(src.indexOf('gif/') + 4,src.indexOf('.gif')));
+        if (index < 100) {
+            index++;
+        } else {
+            index = 1;
+        }
+        document.getElementById('imgGif').src = '../daze/gif/' + index + '.gif';
+    }
+    function autoPlay () {
+        let timeout;
+        console.log('sss');
+        return function autoPlayRe() {
+            if (timeout) {
+                document.getElementById('autoBtn').innerHTML = '自动播放';
+                clearInterval(timeout);
+                timeout = null;
+            } else {
+                document.getElementById('autoBtn').innerHTML = '停止播放';
+                timeout = setInterval(()=>{
+                    randomOne(false);
+                },5000);
+            }
+            console.log('qqq');
+        }
+    }
+    function randomOne (flag=true) {
+        if (flag) {
+            closeAutoPlay();
+        }
+        const random = Math.ceil(Math.random() * 100);
+        document.getElementById('imgGif').src = '../daze/gif/' + random + '.gif';
+    }
+    function closeAutoPlay () {
+        if (document.getElementById('autoBtn').innerHTML === '停止播放') {
+            document.getElementById('autoBtn').click();
+        }
+    }
+</script>
+</html>

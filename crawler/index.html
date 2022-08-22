@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crawler</title>
+    <style>
+        html,body {
+            background-color: #f1f3f4;
+        }
+        .space-info-search-main-input-checkbox-items {
+            width: 300px;
+            height: 54px;
+            padding: 0 1.75rem 0 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .space-info-search-main-input-checkbox-item {
+            width: 87px;
+            height: 54px;
+            background: #fff;
+            border-radius: 10px 10px 10px 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            font-weight: 400;
+            color: #000;
+            box-shadow: 3px 2px #eaecec;
+            line-height: 54px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .space-info-search-main-input-checkbox-item:not(:last-child) {
+            width: 87px;
+            height: 54px;
+            background: #fff;
+            border-radius: 10px 10px 10px 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            font-weight: 400;
+            color: #000;
+            line-height: 54px;
+            box-shadow: 3px 2px #eaecec;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .space-info-search-main-input-checkbox-items .space-info-search-main-input-checkbox-item-check {
+            background: rgba(85,119,245);
+            color: #fff;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="test" class="space-info-search-main-input-checkbox-items"></div>
+</body>
+<script>
+/**
+ * 创建单/多选复选框通用函数
+ * @param {string} divId div容器元素ID，容纳选项的div
+ * @param {Array<Object>} data 绑定的数据
+ * @param {String} dataDesc 绑定的数据中对应的文本内容属性
+ * @param {String} dataValue 绑定的数据中对应的值属性
+ * @param {String} css 选项样式名
+ * @param {String} cssChecked 选项选中样式名
+ * @param {Boolean} isRadio 是否是单选,false为多选
+ * @returns {Function} getCheckedArr 获取当前选中,返回值为Array
+ * @author 缪一帆 2022-07-01
+ */
+function createNormalCheckbox(divId, data, dataDesc, dataValue, css, cssChecked, isRadio=true) {
+    if (!divId || !data || !dataDesc || !dataValue) throw new Error("参数为空!");
+    const div = document.getElementById(divId);
+    if (!div) throw new Error('div not found!');
+    const radioArr = [];
+    const radioParaData = [];
+    if (!css) css = 'space-info-search-main-input-checkbox-item';
+    if (!cssChecked) cssChecked = 'space-info-search-main-input-checkbox-item-check';
+    data.forEach((item, index) => {
+        radioParaData.push({
+            radioCss: css,
+            radioCssChecked: cssChecked,
+            radioId: divId + index,
+            radioText: item[dataDesc],
+            radioValue: item[dataValue],
+        });
+    });
+    radioParaData.forEach((item) => {
+        let node = document.createElement('div');
+        node.textContent = item.radioText;
+        node.className = item.radioCss;
+        node.id = item.radioId;
+        div.appendChild(node);
+        radioArr.push({'node': node, 'css': item.radioCss, 'ccss': item.radioCssChecked, 'value': item.radioValue});
+        node = null; // 用完清理掉
+    });
+    radioArr.forEach((radio) => {
+        radio.node.onclick = function () {
+            if (isRadio) { // 单选处理
+                const curRadio = radioArr.find((item) => {
+                    return item.node.className === item.css + ' ' + item.ccss; 
+                });
+                if (curRadio) { // 已有选中的情况
+                    clearChecked(radioArr); // 清空选择状态
+                    if (curRadio.node.id !== radio.node.id) { // 选中的不是当前点击选项
+                        radio.node.className = radio.css + ' ' + radio.ccss;
+                    }
+                } else { // 未有选中的情况
+                    radio.node.className = radio.css + ' ' + radio.ccss;
+                }
+            } else { // 多选处理
+                if (radio.node.className === radio.css + ' ' + radio.ccss) { // 已选中
+                    radio.node.className = radio.css;
+                } else { // 未选中
+                    radio.node.className = radio.css + ' ' + radio.ccss;
+                }
+            }
+            
+        };
+    });
+    function clearChecked (radioArr) {
+        radioArr.forEach((item) => {
+            item.node.className = item.css;
+        });
+    }
+
+    function getCheckedArr () { // 获取已选中value数组
+        const checkedArr = [];
+        radioArr.forEach((item) => {
+            if (item.node.className === item.css + ' ' + item.ccss) {
+                checkedArr.push(item.value);
+            }
+        });
+        return checkedArr;
+    }
+    return getCheckedArr;
+}
+
+const data = [
+    {
+        name: 'name1',
+        value: 'name1',
+    },
+    {
+        name: 'name2',
+        value: 'name2',
+    },
+    {
+        name: 'name3',
+        value: 'name3',
+    },
+    {
+        name: 'name4',
+        value: 'name4',
+    },
+];
+createNormalCheckbox('test',data,'name','value');
+</script>
+</html>
