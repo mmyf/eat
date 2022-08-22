@@ -36,12 +36,13 @@
         .img {
             width: 60%;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
         .img-gif {
-            width: 100%;
+            height: 80%;
+            margin: 10px;
         }
         .img-footer {
             display: flex;
@@ -100,6 +101,7 @@
         closeAutoPlay();
         let src = document.getElementById('imgGif').src;
         let index = Number.parseInt(src.slice(src.indexOf('gif/') + 4,src.indexOf('.gif')));
+        console.log('index',index);
         if (index < 100) {
             index++;
         } else {
@@ -109,7 +111,6 @@
     }
     function autoPlay () {
         let timeout;
-        console.log('sss');
         return function autoPlayRe() {
             if (timeout) {
                 document.getElementById('autoBtn').innerHTML = '自动播放';
@@ -121,7 +122,6 @@
                     randomOne(false);
                 },5000);
             }
-            console.log('qqq');
         }
     }
     function randomOne (flag=true) {
