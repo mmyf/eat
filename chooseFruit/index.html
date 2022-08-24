@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮你选水果哦</title>
+    <link rel="stylesheet" href="../common/pageInit.css">
+    <style>
+        .page {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .inputPanel {
+            width: 40%;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .fruitNameInput {
+            margin-right: 8px;
+        }
+        .imgPanel {
+            width: 400px;
+            height: 300px;
+        }
+        .fruitInfo {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="inputPanel">
+            <label for="fruitName">请输入水果名：</label>
+            <input id="fruitNameInput" class="fruitNameInput" type="text" name="fruitName" />
+            <button onclick="search()">搜索</button>
+        </div>
+        <div class="imgPanel">
+            <img id="cat" src="http://placekitten.com/400/300" alt="猫猫占位符">
+            <div id="fruitInfo" style="display: none;" class="fruitInfo">
+                <div>
+                    <span>成熟季节：</span>
+                    <span id="season"></span>
+                </div>
+                <div>
+                    <span>如何挑选：</span>
+                    <span id="pick"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./fruit.js"></script>
+<script>
+    function search() {
+        const fruitNameInput = document.getElementById('fruitNameInput');
+        const season = document.getElementById('season');
+        const pick = document.getElementById('pick');
+        const cat = document.getElementById('cat');
+        const fruitInfo = document.getElementById('fruitInfo');
+        const find = fruitArr.find((fruit)=>{
+            return fruit.name === fruitNameInput.value;
+        });
+        if (find) {
+            cat.style.display = 'none';
+            fruitInfo.style.display = 'block';
+            season.innerHTML = find.season;
+            pick.innerHTML = find.pick;
+        } else {
+            cat.style.display = 'block';
+            fruitInfo.style.display = 'none';
+        }
+    }
+</script>
+</html>
